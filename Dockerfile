@@ -15,11 +15,15 @@ COPY . .
 # Instalar dependencias
 RUN composer install --no-dev --optimize-autoloader
 
-# Cache de configuración
-RUN php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache
+# Crear directorios necesarios para cache y logs con permisos
+RUN mkdir -p storage/framework/cache/data \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/logs \
+    bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
 EXPOSE 10000
 
-CMD php artisan serve --host=0.0.0.0 --port=${PORT:-10000}
+# Cachear config en RUNTIME (cuando ya existen las variables de entorno) y luego iniciar
+CMD php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan serve --host=0.0.0.0 --port=${PORT:-10000}
