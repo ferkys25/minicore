@@ -138,6 +138,7 @@ La aplicación muestra un dashboard con 3 tarjetas:
 ## Deploy
 
 La aplicación está desplegada en **Render.com** con PostgreSQL.
+https://minicore-t1vr.onrender.com
 
 ## Autor
 
